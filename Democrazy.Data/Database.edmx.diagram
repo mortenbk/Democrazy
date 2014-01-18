@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="15f29bb2b2094eb882c393ed941a5094" Name="Diagram1" ShowGrid="false" >
+        <EntityTypeShape EntityType="Database.User" Width="1.5" PointX="9.625" PointY="0.75" />
+        <EntityTypeShape EntityType="Database.Law" Width="1.5" PointX="0.5" PointY="3" />
+        <EntityTypeShape EntityType="Database.LawProposal" Width="1.5" PointX="7.625" PointY="2.5" />
+        <EntityTypeShape EntityType="Database.SeatType" PointX="1.25" PointY="5.75" Width="1.5" />
+        <EntityTypeShape EntityType="Database.Seat" Width="1.5" PointX="5" PointY="5.125" />
+        <EntityTypeShape EntityType="Database.Parliament" Width="1.5" PointX="5.125" PointY="2.125" />
+        <EntityTypeShape EntityType="Database.Lower_House" Width="1.5" PointX="2.75" PointY="3.25" />
+        <AssociationConnector Association="Database.Parliament_House" />
+        <EntityTypeShape EntityType="Database.PoliticalParty" Width="1.5" PointX="7.5" PointY="5.5" />
+        <AssociationConnector Association="Database.SeatSeatType" />
+        <AssociationConnector Association="Database.ParliamentSeat" />
+        <AssociationConnector Association="Database.Lower_HouseSeat" />
+        <AssociationConnector Association="Database.ParliamentLawProposal" />
+        <AssociationConnector Association="Database.Lower_HouseLawProposal" />
+        <EntityTypeShape EntityType="Database.Country" Width="1.5" PointX="2.75" PointY="0.5" />
+        <AssociationConnector Association="Database.CountryParliament" />
+        <AssociationConnector Association="Database.CountryLaw" />
+        <AssociationConnector Association="Database.UserCountry" />
+        <EntityTypeShape EntityType="Database.Coalition" Width="1.5" PointX="10" PointY="5.5" />
+        <AssociationConnector Association="Database.CoalitionPoliticalParty" />
+        <AssociationConnector Association="Database.Votes" />
+        <AssociationConnector Association="Database.SeatPoliticalParty" />
+        </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
