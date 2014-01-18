@@ -19,5 +19,6 @@ namespace Democrazy.Data
         public string UserName { get; set; }
         public string UserLevel { get; set; }
         public int CountryId { get; set; }
+        public int SexId { get; set; }
     }
 }

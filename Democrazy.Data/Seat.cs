@@ -16,7 +16,6 @@ namespace Democrazy.Data
     {
         public Seat()
         {
-            this.SeatTypes = new HashSet<SeatType>();
             this.LawsEnacted = new HashSet<Law>();
         }
     
@@ -26,8 +25,8 @@ namespace Democrazy.Data
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public Nullable<int> PoliticalPartyId { get; set; }
+        public int SeatTypeId { get; set; }
     
-        public virtual ICollection<SeatType> SeatTypes { get; set; }
         public virtual ICollection<Law> LawsEnacted { get; set; }
         public virtual PoliticalParty PoliticalParty { get; set; }
     }

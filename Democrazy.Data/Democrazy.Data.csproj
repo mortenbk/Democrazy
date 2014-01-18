@@ -67,6 +67,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Database.edmx</DependentUpon>
     </Compile>
+    <Compile Include="DemocracyType.cs">
+      <DependentUpon>Database.tt</DependentUpon>
+    </Compile>
     <Compile Include="Law.cs">
       <DependentUpon>Database.tt</DependentUpon>
     </Compile>
@@ -74,6 +77,9 @@
       <DependentUpon>Database.tt</DependentUpon>
     </Compile>
     <Compile Include="Lower_House.cs">
+      <DependentUpon>Database.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Paragraph.cs">
       <DependentUpon>Database.tt</DependentUpon>
     </Compile>
     <Compile Include="Parliament.cs">
@@ -87,6 +93,9 @@
       <DependentUpon>Database.tt</DependentUpon>
     </Compile>
     <Compile Include="SeatType.cs">
+      <DependentUpon>Database.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Sex.cs">
       <DependentUpon>Database.tt</DependentUpon>
     </Compile>
     <Compile Include="User.cs">

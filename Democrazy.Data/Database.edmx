@@ -16,19 +16,13 @@
     <EntitySet Name="PoliticalParties" EntityType="Database.Store.PoliticalParties" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Countries" EntityType="Database.Store.Countries" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Coalitions" EntityType="Database.Store.Coalitions" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="SeatSeatType" EntityType="Database.Store.SeatSeatType" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Paragraphs" EntityType="Database.Store.Paragraphs" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="DemocracyTypes" EntityType="Database.Store.DemocracyTypes" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Sexes" EntityType="Database.Store.Sexes" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Votes" EntityType="Database.Store.Votes" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="Parliament_House" Association="Database.Store.Parliament_House">
       <End Role="Parliament" EntitySet="Parliaments" />
       <End Role="Lower_House" EntitySet="Lower_Houses" />
-    </AssociationSet>
-    <AssociationSet Name="FK_SeatSeatType_Seat" Association="Database.Store.FK_SeatSeatType_Seat">
-      <End Role="Seat" EntitySet="Seats" />
-      <End Role="SeatSeatType" EntitySet="SeatSeatType" />
-    </AssociationSet>
-    <AssociationSet Name="FK_SeatSeatType_SeatType" Association="Database.Store.FK_SeatSeatType_SeatType">
-      <End Role="SeatType" EntitySet="SeatsTypes" />
-      <End Role="SeatSeatType" EntitySet="SeatSeatType" />
     </AssociationSet>
     <AssociationSet Name="ParliamentSeat" Association="Database.Store.ParliamentSeat">
       <End Role="Parliament" EntitySet="Parliaments" />
@@ -74,6 +68,22 @@
       <End Role="Seat" EntitySet="Seats" />
       <End Role="PoliticalParty" EntitySet="PoliticalParties" />
     </AssociationSet>
+    <AssociationSet Name="ParagraphLaw" Association="Database.Store.ParagraphLaw">
+      <End Role="Paragraph" EntitySet="Paragraphs" />
+      <End Role="Law" EntitySet="Laws" />
+    </AssociationSet>
+    <AssociationSet Name="SeatSeatType" Association="Database.Store.SeatSeatType">
+      <End Role="Seat" EntitySet="Seats" />
+      <End Role="SeatType" EntitySet="SeatsTypes" />
+    </AssociationSet>
+    <AssociationSet Name="DemocracyTypeCountry" Association="Database.Store.DemocracyTypeCountry">
+      <End Role="DemocracyType" EntitySet="DemocracyTypes" />
+      <End Role="Country" EntitySet="Countries" />
+    </AssociationSet>
+    <AssociationSet Name="SexUser" Association="Database.Store.SexUser">
+      <End Role="Sex" EntitySet="Sexes" />
+      <End Role="User" EntitySet="Users" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="Users">
     <Key>
@@ -84,6 +94,7 @@
     <Property Name="UserName" Type="nvarchar(max)" Nullable="false" />
     <Property Name="UserLevel" Type="nvarchar(max)" Nullable="false" />
     <Property Name="CountryId" Type="int" Nullable="false" />
+    <Property Name="SexId" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="Laws">
     <Key>
@@ -93,6 +104,8 @@
     <Property Name="MemberId" Type="int" Nullable="false" />
     <Property Name="CountryId" Type="int" Nullable="false" />
     <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Summary" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="AliasName" Type="nvarchar(max)" Nullable="true" />
   </EntityType>
   <EntityType Name="LawProposals">
     <Key>
@@ -109,7 +122,7 @@
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Type" Type="nvarchar(max)" Nullable="false" />
   </EntityType>
   <EntityType Name="Seats">
     <Key>
@@ -121,6 +134,7 @@
     <Property Name="FirstName" Type="nvarchar(max)" Nullable="false" />
     <Property Name="LastName" Type="nvarchar(max)" Nullable="false" />
     <Property Name="PoliticalPartyId" Type="int" Nullable="true" />
+    <Property Name="SeatTypeId" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="Parliaments">
     <Key>
@@ -155,6 +169,7 @@
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
     <Property Name="NumberOfInhabitants" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="DemocracyTypeId" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="Coalitions">
     <Key>
@@ -164,13 +179,27 @@
     <Property Name="isInOpposition" Type="bit" Nullable="false" />
     <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
   </EntityType>
-  <EntityType Name="SeatSeatType">
+  <EntityType Name="Paragraphs">
     <Key>
-      <PropertyRef Name="Seats_Id" />
-      <PropertyRef Name="SeatTypes_Id" />
+      <PropertyRef Name="Id" />
     </Key>
-    <Property Name="Seats_Id" Type="int" Nullable="false" />
-    <Property Name="SeatTypes_Id" Type="int" Nullable="false" />
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="LawId" Type="int" Nullable="false" />
+    <Property Name="Text" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="DemocracyTypes">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Type" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Sexes">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
   </EntityType>
   <EntityType Name="Votes">
     <Key>
@@ -300,27 +329,51 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_SeatSeatType_Seat">
-    <End Role="Seat" Type="Database.Store.Seats" Multiplicity="1" />
-    <End Role="SeatSeatType" Type="Database.Store.SeatSeatType" Multiplicity="*" />
+  <Association Name="ParagraphLaw">
+    <End Role="Paragraph" Type="Database.Store.Paragraphs" Multiplicity="*" />
+    <End Role="Law" Type="Database.Store.Laws" Multiplicity="1" />
     <ReferentialConstraint>
-      <Principal Role="Seat">
+      <Principal Role="Law">
         <PropertyRef Name="Id" />
       </Principal>
-      <Dependent Role="SeatSeatType">
-        <PropertyRef Name="Seats_Id" />
+      <Dependent Role="Paragraph">
+        <PropertyRef Name="LawId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_SeatSeatType_SeatType">
-    <End Role="SeatSeatType" Type="Database.Store.SeatSeatType" Multiplicity="*" />
+  <Association Name="SeatSeatType">
+    <End Role="Seat" Type="Database.Store.Seats" Multiplicity="*" />
     <End Role="SeatType" Type="Database.Store.SeatsTypes" Multiplicity="1" />
     <ReferentialConstraint>
       <Principal Role="SeatType">
         <PropertyRef Name="Id" />
       </Principal>
-      <Dependent Role="SeatSeatType">
-        <PropertyRef Name="SeatTypes_Id" />
+      <Dependent Role="Seat">
+        <PropertyRef Name="SeatTypeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="DemocracyTypeCountry">
+    <End Role="DemocracyType" Type="Database.Store.DemocracyTypes" Multiplicity="1" />
+    <End Role="Country" Type="Database.Store.Countries" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="DemocracyType">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Country">
+        <PropertyRef Name="DemocracyTypeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="SexUser">
+    <End Role="Sex" Type="Database.Store.Sexes" Multiplicity="1" />
+    <End Role="User" Type="Database.Store.Users" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Sex">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="User">
+        <PropertyRef Name="SexId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -365,10 +418,6 @@
             <End Role="Lower_House" EntitySet="Lower_Houses" />
           </AssociationSet>
           <EntitySet Name="PoliticalParties" EntityType="Database.PoliticalParty" />
-          <AssociationSet Name="SeatSeatType" Association="Database.SeatSeatType">
-            <End Role="Seat" EntitySet="Seats" />
-            <End Role="SeatType" EntitySet="SeatsTypes" />
-          </AssociationSet>
           <AssociationSet Name="ParliamentSeat" Association="Database.ParliamentSeat">
             <End Role="Parliament" EntitySet="Parliaments" />
             <End Role="Seat" EntitySet="Seats" />
@@ -411,6 +460,25 @@
             <End Role="Seat" EntitySet="Seats" />
             <End Role="PoliticalParty" EntitySet="PoliticalParties" />
           </AssociationSet>
+          <EntitySet Name="Paragraphs" EntityType="Database.Paragraph" />
+          <AssociationSet Name="ParagraphLaw" Association="Database.ParagraphLaw">
+            <End Role="Paragraph" EntitySet="Paragraphs" />
+            <End Role="Law" EntitySet="Laws" />
+          </AssociationSet>
+          <AssociationSet Name="SeatSeatType" Association="Database.SeatSeatType">
+            <End Role="Seat" EntitySet="Seats" />
+            <End Role="SeatType" EntitySet="SeatsTypes" />
+          </AssociationSet>
+          <EntitySet Name="DemocracyTypes" EntityType="Database.DemocracyType" />
+          <AssociationSet Name="DemocracyTypeCountry" Association="Database.DemocracyTypeCountry">
+            <End Role="DemocracyType" EntitySet="DemocracyTypes" />
+            <End Role="Country" EntitySet="Countries" />
+          </AssociationSet>
+          <EntitySet Name="Sexes" EntityType="Database.Sex" />
+          <AssociationSet Name="SexUser" Association="Database.SexUser">
+            <End Role="Sex" EntitySet="Sexes" />
+            <End Role="User" EntitySet="Users" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="User">
           <Key>
@@ -421,6 +489,7 @@
           <Property Type="String" Name="UserName" Nullable="false" />
           <Property Type="String" Name="UserLevel" Nullable="false" />
           <Property Type="Int32" Name="CountryId" Nullable="false" />
+          <Property Type="Int32" Name="SexId" Nullable="false" />
         </EntityType>
         <EntityType Name="Law">
           <Key>
@@ -431,6 +500,9 @@
           <Property Type="Int32" Name="CountryId" Nullable="false" />
           <NavigationProperty Name="Voters" Relationship="Database.Votes" FromRole="Law" ToRole="Seat" />
           <Property Type="String" Name="Name" Nullable="false" />
+          <NavigationProperty Name="Paragraphs" Relationship="Database.ParagraphLaw" FromRole="Law" ToRole="Paragraph" />
+          <Property Type="String" Name="Summary" Nullable="false" />
+          <Property Type="String" Name="AliasName" Nullable="true" />
         </EntityType>
         <EntityType Name="LawProposal">
           <Key>
@@ -447,15 +519,14 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" Type="Int32" />
+          <Property Type="String" Name="Type" Nullable="false" />
           <NavigationProperty Name="Seats" Relationship="Database.SeatSeatType" FromRole="SeatType" ToRole="Seat" />
-          <Property Type="String" Name="Name" Nullable="false" />
         </EntityType>
         <EntityType Name="Seat">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <NavigationProperty Name="SeatTypes" Relationship="Database.SeatSeatType" FromRole="Seat" ToRole="SeatType" />
           <Property Type="Int32" Name="ParliamentId" Nullable="true" />
           <Property Type="Int32" Name="Lower_HouseId" Nullable="true" />
           <Property Type="String" Name="FirstName" Nullable="false" />
@@ -463,6 +534,7 @@
           <NavigationProperty Name="LawsEnacted" Relationship="Database.Votes" FromRole="Seat" ToRole="Law" />
           <NavigationProperty Name="PoliticalParty" Relationship="Database.SeatPoliticalParty" FromRole="Seat" ToRole="PoliticalParty" />
           <Property Type="Int32" Name="PoliticalPartyId" Nullable="true" />
+          <Property Type="Int32" Name="SeatTypeId" Nullable="false" />
         </EntityType>
         <EntityType Name="Parliament">
           <Key>
@@ -495,14 +567,10 @@
           </Key>
           <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Type="Int32" Name="CoalitionId" Nullable="false" />
-          <NavigationProperty Name="Seat" Relationship="Database.SeatPoliticalParty" FromRole="PoliticalParty" ToRole="Seat" />
+          <NavigationProperty Name="Seats" Relationship="Database.SeatPoliticalParty" FromRole="PoliticalParty" ToRole="Seat" />
           <Property Type="String" Name="Name" Nullable="false" />
           <Property Type="String" Name="Abbreviation" Nullable="false" />
         </EntityType>
-        <Association Name="SeatSeatType">
-          <End Type="Database.Seat" Role="Seat" Multiplicity="*" />
-          <End Type="Database.SeatType" Role="SeatType" Multiplicity="*" />
-        </Association>
         <Association Name="ParliamentSeat">
           <End Type="Database.Parliament" Role="Parliament" Multiplicity="0..1" />
           <End Type="Database.Seat" Role="Seat" Multiplicity="*" />
@@ -559,8 +627,8 @@
           <NavigationProperty Name="Parliament" Relationship="Database.CountryParliament" FromRole="Country" ToRole="Parliament" />
           <Property Type="String" Name="Name" Nullable="false" />
           <NavigationProperty Name="Laws" Relationship="Database.CountryLaw" FromRole="Country" ToRole="Law" />
-          <NavigationProperty Name="Users" Relationship="Database.UserCountry" FromRole="Country" ToRole="User" />
           <Property Type="String" Name="NumberOfInhabitants" Nullable="false" />
+          <Property Type="Int32" Name="DemocracyTypeId" Nullable="false" />
         </EntityType>
         <Association Name="CountryParliament">
           <End Type="Database.Country" Role="Country" Multiplicity="1" />
@@ -627,6 +695,78 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Paragraph">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="LawId" Nullable="false" />
+          <Property Type="String" Name="Text" Nullable="false" />
+          <Property Type="String" Name="Name" Nullable="false" />
+        </EntityType>
+        <Association Name="ParagraphLaw">
+          <End Type="Database.Paragraph" Role="Paragraph" Multiplicity="*" />
+          <End Type="Database.Law" Role="Law" Multiplicity="1" />
+          <ReferentialConstraint>
+            <Principal Role="Law">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Paragraph">
+              <PropertyRef Name="LawId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="SeatSeatType">
+          <End Type="Database.Seat" Role="Seat" Multiplicity="*" />
+          <End Type="Database.SeatType" Role="SeatType" Multiplicity="1" />
+          <ReferentialConstraint>
+            <Principal Role="SeatType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Seat">
+              <PropertyRef Name="SeatTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="DemocracyType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Countries" Relationship="Database.DemocracyTypeCountry" FromRole="DemocracyType" ToRole="Country" />
+          <Property Type="String" Name="Type" Nullable="false" />
+        </EntityType>
+        <Association Name="DemocracyTypeCountry">
+          <End Type="Database.DemocracyType" Role="DemocracyType" Multiplicity="1" />
+          <End Type="Database.Country" Role="Country" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DemocracyType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Country">
+              <PropertyRef Name="DemocracyTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Sex">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Users" Relationship="Database.SexUser" FromRole="Sex" ToRole="User" />
+        </EntityType>
+        <Association Name="SexUser">
+          <End Type="Database.Sex" Role="Sex" Multiplicity="1" />
+          <End Type="Database.User" Role="User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sex">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="SexId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -641,6 +781,7 @@
           <ScalarProperty Name="UserName" ColumnName="UserName" />
           <ScalarProperty Name="UserLevel" ColumnName="UserLevel" />
           <ScalarProperty Name="CountryId" ColumnName="CountryId" />
+          <ScalarProperty Name="SexId" ColumnName="SexId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -651,6 +792,8 @@
           <ScalarProperty Name="MemberId" ColumnName="MemberId" />
           <ScalarProperty Name="CountryId" ColumnName="CountryId" />
           <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Summary" ColumnName="Summary" />
+          <ScalarProperty Name="AliasName" ColumnName="AliasName" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -669,7 +812,7 @@
       <EntityTypeMapping TypeName="IsTypeOf(Database.SeatType)">
         <MappingFragment StoreEntitySet="SeatsTypes">
           <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -682,6 +825,7 @@
           <ScalarProperty Name="FirstName" ColumnName="FirstName" />
           <ScalarProperty Name="LastName" ColumnName="LastName" />
           <ScalarProperty Name="PoliticalPartyId" ColumnName="PoliticalPartyId" />
+          <ScalarProperty Name="SeatTypeId" ColumnName="SeatTypeId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -718,6 +862,7 @@
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Name" ColumnName="Name" />
           <ScalarProperty Name="NumberOfInhabitants" ColumnName="NumberOfInhabitants" />
+          <ScalarProperty Name="DemocracyTypeId" ColumnName="DemocracyTypeId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -730,20 +875,37 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="Paragraphs">
+      <EntityTypeMapping TypeName="IsTypeOf(Database.Paragraph)">
+        <MappingFragment StoreEntitySet="Paragraphs">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="LawId" ColumnName="LawId" />
+          <ScalarProperty Name="Text" ColumnName="Text" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="DemocracyTypes">
+      <EntityTypeMapping TypeName="IsTypeOf(Database.DemocracyType)">
+        <MappingFragment StoreEntitySet="DemocracyTypes">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Sexes">
+      <EntityTypeMapping TypeName="IsTypeOf(Database.Sex)">
+        <MappingFragment StoreEntitySet="Sexes">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <AssociationSetMapping Name="Parliament_House" TypeName="Database.Parliament_House" StoreEntitySet="Lower_Houses">
       <EndProperty Name="Parliament">
         <ScalarProperty Name="Id" ColumnName="Parliament_House_Lower_House_Id" />
       </EndProperty>
       <EndProperty Name="Lower_House">
         <ScalarProperty Name="Id" ColumnName="Id" />
-      </EndProperty>
-    </AssociationSetMapping>
-    <AssociationSetMapping Name="SeatSeatType" TypeName="Database.SeatSeatType" StoreEntitySet="SeatSeatType">
-      <EndProperty Name="Seat">
-        <ScalarProperty Name="Id" ColumnName="Seats_Id" />
-      </EndProperty>
-      <EndProperty Name="SeatType">
-        <ScalarProperty Name="Id" ColumnName="SeatTypes_Id" />
       </EndProperty>
     </AssociationSetMapping>
     <AssociationSetMapping Name="CountryParliament" TypeName="Database.CountryParliament" StoreEntitySet="Parliaments">

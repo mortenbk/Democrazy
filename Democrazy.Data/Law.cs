@@ -17,13 +17,17 @@ namespace Democrazy.Data
         public Law()
         {
             this.Voters = new HashSet<Seat>();
+            this.Paragraphs = new HashSet<Paragraph>();
         }
     
         public int Id { get; set; }
         public int MemberId { get; set; }
         public int CountryId { get; set; }
         public string Name { get; set; }
+        public string Summary { get; set; }
+        public string AliasName { get; set; }
     
         public virtual ICollection<Seat> Voters { get; set; }
+        public virtual ICollection<Paragraph> Paragraphs { get; set; }
     }
 }

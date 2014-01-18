@@ -16,7 +16,7 @@ namespace Democrazy.Data
     {
         public PoliticalParty()
         {
-            this.Seat = new HashSet<Seat>();
+            this.Seats = new HashSet<Seat>();
         }
     
         public int Id { get; set; }
@@ -24,6 +24,6 @@ namespace Democrazy.Data
         public string Name { get; set; }
         public string Abbreviation { get; set; }
     
-        public virtual ICollection<Seat> Seat { get; set; }
+        public virtual ICollection<Seat> Seats { get; set; }
     }
 }

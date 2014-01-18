@@ -35,5 +35,8 @@ namespace Democrazy.Data
         public DbSet<PoliticalParty> PoliticalParties { get; set; }
         public DbSet<Country> Countries { get; set; }
         public DbSet<Coalition> Coalitions { get; set; }
+        public DbSet<Paragraph> Paragraphs { get; set; }
+        public DbSet<DemocracyType> DemocracyTypes { get; set; }
+        public DbSet<Sex> Sexes { get; set; }
     }
 }

@@ -2,8 +2,8 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, and Azure
 -- --------------------------------------------------
--- Date Created: 01/18/2014 22:03:39
--- Generated from EDMX file: c:\users\morten\documents\visual studio 2012\Projects\Democrazy\Democrazy.Data\Database.edmx
+-- Date Created: 01/19/2014 00:23:33
+-- Generated from EDMX file: C:\Users\morten\Documents\GitHub\Democrazy\Democrazy.Data\Database.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
@@ -19,12 +19,6 @@ GO
 
 IF OBJECT_ID(N'[dbo].[FK_Parliament_House]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Lower_Houses] DROP CONSTRAINT [FK_Parliament_House];
-GO
-IF OBJECT_ID(N'[dbo].[FK_SeatSeatType_Seat]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[SeatSeatType] DROP CONSTRAINT [FK_SeatSeatType_Seat];
-GO
-IF OBJECT_ID(N'[dbo].[FK_SeatSeatType_SeatType]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[SeatSeatType] DROP CONSTRAINT [FK_SeatSeatType_SeatType];
 GO
 IF OBJECT_ID(N'[dbo].[FK_ParliamentSeat]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Seats] DROP CONSTRAINT [FK_ParliamentSeat];
@@ -58,6 +52,18 @@ IF OBJECT_ID(N'[dbo].[FK_Votes_Law]', 'F') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[FK_SeatPoliticalParty]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Seats] DROP CONSTRAINT [FK_SeatPoliticalParty];
+GO
+IF OBJECT_ID(N'[dbo].[FK_ParagraphLaw]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Paragraphs] DROP CONSTRAINT [FK_ParagraphLaw];
+GO
+IF OBJECT_ID(N'[dbo].[FK_SeatSeatType]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Seats] DROP CONSTRAINT [FK_SeatSeatType];
+GO
+IF OBJECT_ID(N'[dbo].[FK_DemocracyTypeCountry]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Countries] DROP CONSTRAINT [FK_DemocracyTypeCountry];
+GO
+IF OBJECT_ID(N'[dbo].[FK_SexUser]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Users] DROP CONSTRAINT [FK_SexUser];
 GO
 
 -- --------------------------------------------------
@@ -94,8 +100,14 @@ GO
 IF OBJECT_ID(N'[dbo].[Coalitions]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Coalitions];
 GO
-IF OBJECT_ID(N'[dbo].[SeatSeatType]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[SeatSeatType];
+IF OBJECT_ID(N'[dbo].[Paragraphs]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Paragraphs];
+GO
+IF OBJECT_ID(N'[dbo].[DemocracyTypes]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[DemocracyTypes];
+GO
+IF OBJECT_ID(N'[dbo].[Sexes]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Sexes];
 GO
 IF OBJECT_ID(N'[dbo].[Votes]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Votes];
@@ -111,7 +123,8 @@ CREATE TABLE [dbo].[Users] (
     [Password] nvarchar(max)  NOT NULL,
     [UserName] nvarchar(max)  NOT NULL,
     [UserLevel] nvarchar(max)  NOT NULL,
-    [CountryId] int  NOT NULL
+    [CountryId] int  NOT NULL,
+    [SexId] int  NOT NULL
 );
 GO
 
@@ -120,7 +133,9 @@ CREATE TABLE [dbo].[Laws] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [MemberId] int  NOT NULL,
     [CountryId] int  NOT NULL,
-    [Name] nvarchar(max)  NOT NULL
+    [Name] nvarchar(max)  NOT NULL,
+    [Summary] nvarchar(max)  NOT NULL,
+    [AliasName] nvarchar(max)  NULL
 );
 GO
 
@@ -137,7 +152,7 @@ GO
 -- Creating table 'SeatsTypes'
 CREATE TABLE [dbo].[SeatsTypes] (
     [Id] int IDENTITY(1,1) NOT NULL,
-    [Name] nvarchar(max)  NOT NULL
+    [Type] nvarchar(max)  NOT NULL
 );
 GO
 
@@ -148,7 +163,8 @@ CREATE TABLE [dbo].[Seats] (
     [Lower_HouseId] int  NULL,
     [FirstName] nvarchar(max)  NOT NULL,
     [LastName] nvarchar(max)  NOT NULL,
-    [PoliticalPartyId] int  NULL
+    [PoliticalPartyId] int  NULL,
+    [SeatTypeId] int  NOT NULL
 );
 GO
 
@@ -182,7 +198,8 @@ GO
 CREATE TABLE [dbo].[Countries] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [Name] nvarchar(max)  NOT NULL,
-    [NumberOfInhabitants] nvarchar(max)  NOT NULL
+    [NumberOfInhabitants] nvarchar(max)  NOT NULL,
+    [DemocracyTypeId] int  NOT NULL
 );
 GO
 
@@ -194,10 +211,25 @@ CREATE TABLE [dbo].[Coalitions] (
 );
 GO
 
--- Creating table 'SeatSeatType'
-CREATE TABLE [dbo].[SeatSeatType] (
-    [Seats_Id] int  NOT NULL,
-    [SeatTypes_Id] int  NOT NULL
+-- Creating table 'Paragraphs'
+CREATE TABLE [dbo].[Paragraphs] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [LawId] int  NOT NULL,
+    [Text] nvarchar(max)  NOT NULL,
+    [Name] nvarchar(max)  NOT NULL
+);
+GO
+
+-- Creating table 'DemocracyTypes'
+CREATE TABLE [dbo].[DemocracyTypes] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Type] nvarchar(max)  NOT NULL
+);
+GO
+
+-- Creating table 'Sexes'
+CREATE TABLE [dbo].[Sexes] (
+    [Id] int IDENTITY(1,1) NOT NULL
 );
 GO
 
@@ -272,10 +304,22 @@ ADD CONSTRAINT [PK_Coalitions]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
--- Creating primary key on [Seats_Id], [SeatTypes_Id] in table 'SeatSeatType'
-ALTER TABLE [dbo].[SeatSeatType]
-ADD CONSTRAINT [PK_SeatSeatType]
-    PRIMARY KEY NONCLUSTERED ([Seats_Id], [SeatTypes_Id] ASC);
+-- Creating primary key on [Id] in table 'Paragraphs'
+ALTER TABLE [dbo].[Paragraphs]
+ADD CONSTRAINT [PK_Paragraphs]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'DemocracyTypes'
+ALTER TABLE [dbo].[DemocracyTypes]
+ADD CONSTRAINT [PK_DemocracyTypes]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'Sexes'
+ALTER TABLE [dbo].[Sexes]
+ADD CONSTRAINT [PK_Sexes]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
 -- Creating primary key on [Voters_Id], [LawsEnacted_Id] in table 'Votes'
@@ -300,29 +344,6 @@ ADD CONSTRAINT [FK_Parliament_House]
 CREATE INDEX [IX_FK_Parliament_House]
 ON [dbo].[Lower_Houses]
     ([Parliament_House_Lower_House_Id]);
-GO
-
--- Creating foreign key on [Seats_Id] in table 'SeatSeatType'
-ALTER TABLE [dbo].[SeatSeatType]
-ADD CONSTRAINT [FK_SeatSeatType_Seat]
-    FOREIGN KEY ([Seats_Id])
-    REFERENCES [dbo].[Seats]
-        ([Id])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-GO
-
--- Creating foreign key on [SeatTypes_Id] in table 'SeatSeatType'
-ALTER TABLE [dbo].[SeatSeatType]
-ADD CONSTRAINT [FK_SeatSeatType_SeatType]
-    FOREIGN KEY ([SeatTypes_Id])
-    REFERENCES [dbo].[SeatsTypes]
-        ([Id])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-
--- Creating non-clustered index for FOREIGN KEY 'FK_SeatSeatType_SeatType'
-CREATE INDEX [IX_FK_SeatSeatType_SeatType]
-ON [dbo].[SeatSeatType]
-    ([SeatTypes_Id]);
 GO
 
 -- Creating foreign key on [ParliamentId] in table 'Seats'
@@ -472,6 +493,62 @@ ADD CONSTRAINT [FK_SeatPoliticalParty]
 CREATE INDEX [IX_FK_SeatPoliticalParty]
 ON [dbo].[Seats]
     ([PoliticalPartyId]);
+GO
+
+-- Creating foreign key on [LawId] in table 'Paragraphs'
+ALTER TABLE [dbo].[Paragraphs]
+ADD CONSTRAINT [FK_ParagraphLaw]
+    FOREIGN KEY ([LawId])
+    REFERENCES [dbo].[Laws]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_ParagraphLaw'
+CREATE INDEX [IX_FK_ParagraphLaw]
+ON [dbo].[Paragraphs]
+    ([LawId]);
+GO
+
+-- Creating foreign key on [SeatTypeId] in table 'Seats'
+ALTER TABLE [dbo].[Seats]
+ADD CONSTRAINT [FK_SeatSeatType]
+    FOREIGN KEY ([SeatTypeId])
+    REFERENCES [dbo].[SeatsTypes]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_SeatSeatType'
+CREATE INDEX [IX_FK_SeatSeatType]
+ON [dbo].[Seats]
+    ([SeatTypeId]);
+GO
+
+-- Creating foreign key on [DemocracyTypeId] in table 'Countries'
+ALTER TABLE [dbo].[Countries]
+ADD CONSTRAINT [FK_DemocracyTypeCountry]
+    FOREIGN KEY ([DemocracyTypeId])
+    REFERENCES [dbo].[DemocracyTypes]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_DemocracyTypeCountry'
+CREATE INDEX [IX_FK_DemocracyTypeCountry]
+ON [dbo].[Countries]
+    ([DemocracyTypeId]);
+GO
+
+-- Creating foreign key on [SexId] in table 'Users'
+ALTER TABLE [dbo].[Users]
+ADD CONSTRAINT [FK_SexUser]
+    FOREIGN KEY ([SexId])
+    REFERENCES [dbo].[Sexes]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_SexUser'
+CREATE INDEX [IX_FK_SexUser]
+ON [dbo].[Users]
+    ([SexId]);
 GO
 
 -- --------------------------------------------------

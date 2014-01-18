@@ -17,15 +17,14 @@ namespace Democrazy.Data
         public Country()
         {
             this.Laws = new HashSet<Law>();
-            this.Users = new HashSet<User>();
         }
     
         public int Id { get; set; }
         public string Name { get; set; }
         public string NumberOfInhabitants { get; set; }
+        public int DemocracyTypeId { get; set; }
     
         public virtual Parliament Parliament { get; set; }
         public virtual ICollection<Law> Laws { get; set; }
-        public virtual ICollection<User> Users { get; set; }
     }
 }
