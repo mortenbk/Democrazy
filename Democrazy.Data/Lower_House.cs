@@ -22,6 +22,7 @@ namespace Democrazy.Data
     
         public int Id { get; set; }
         public short SeatNumber { get; set; }
+        public string Name { get; set; }
     
         public virtual ICollection<Seat> Seats { get; set; }
         public virtual ICollection<LawProposal> LawProposals { get; set; }

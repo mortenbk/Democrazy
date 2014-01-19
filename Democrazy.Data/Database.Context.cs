@@ -36,7 +36,12 @@ namespace Democrazy.Data
         public DbSet<Country> Countries { get; set; }
         public DbSet<Coalition> Coalitions { get; set; }
         public DbSet<Paragraph> Paragraphs { get; set; }
-        public DbSet<DemocracyType> DemocracyTypes { get; set; }
         public DbSet<Sex> Sexes { get; set; }
+        public DbSet<Paragraph_Translation> Paragraph_TranslationSet { get; set; }
+        public DbSet<Law_Translation> Law_Translations { get; set; }
+        public DbSet<Paragraph_Change> Paragraph_Changes { get; set; }
+        public DbSet<Law_Translation_Vote> Law_Translation_Votes { get; set; }
+        public DbSet<Paragraph_Translate_Vote> Paragraph_Translate_Votes { get; set; }
+        public DbSet<Paragraph_Change_Vote> Paragraph_Change_Votes { get; set; }
     }
 }

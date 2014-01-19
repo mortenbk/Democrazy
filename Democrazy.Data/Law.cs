@@ -18,6 +18,7 @@ namespace Democrazy.Data
         {
             this.Voters = new HashSet<Seat>();
             this.Paragraphs = new HashSet<Paragraph>();
+            this.Law_Translations = new HashSet<Law_Translation>();
         }
     
         public int Id { get; set; }
@@ -29,5 +30,6 @@ namespace Democrazy.Data
     
         public virtual ICollection<Seat> Voters { get; set; }
         public virtual ICollection<Paragraph> Paragraphs { get; set; }
+        public virtual ICollection<Law_Translation> Law_Translations { get; set; }
     }
 }

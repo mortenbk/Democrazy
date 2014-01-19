@@ -23,6 +23,7 @@ namespace Democrazy.Data
         public int CoalitionId { get; set; }
         public string Name { get; set; }
         public string Abbreviation { get; set; }
+        public int CountryId { get; set; }
     
         public virtual ICollection<Seat> Seats { get; set; }
     }

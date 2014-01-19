@@ -10,7 +10,7 @@
         <EntityTypeShape EntityType="Database.LawProposal" Width="1.5" PointX="6.25" PointY="3.25" />
         <EntityTypeShape EntityType="Database.SeatType" PointX="8.625" PointY="7.125" Width="1.5" />
         <EntityTypeShape EntityType="Database.Seat" Width="1.5" PointX="6.25" PointY="5.875" />
-        <EntityTypeShape EntityType="Database.Parliament" Width="1.5" PointX="3.875" PointY="3.75" />
+        <EntityTypeShape EntityType="Database.Parliament" Width="1.5" PointX="3.125" PointY="3.75" />
         <EntityTypeShape EntityType="Database.Lower_House" Width="1.5" PointX="8.625" PointY="4.875" />
         <AssociationConnector Association="Database.Parliament_House" />
         <EntityTypeShape EntityType="Database.PoliticalParty" Width="1.5" PointX="7.375" PointY="9.25" />
@@ -29,10 +29,26 @@
         <EntityTypeShape EntityType="Database.Paragraph" Width="1.5" PointX="3.125" PointY="9.125" />
         <AssociationConnector Association="Database.ParagraphLaw" />
         <AssociationConnector Association="Database.SeatSeatType" />
-        <EntityTypeShape EntityType="Database.DemocracyType" Width="1.5" PointX="3.5" PointY="0.625" />
-        <AssociationConnector Association="Database.DemocracyTypeCountry" />
         <EntityTypeShape EntityType="Database.Sex" Width="1.5" PointX="10.875" PointY="0.75" />
         <AssociationConnector Association="Database.SexUser" />
+        <EntityTypeShape EntityType="Database.Paragraph_Translation" Width="1.5" PointX="0.75" PointY="9.125" />
+        <AssociationConnector Association="Database.ParagraphParagraph_Translation" />
+        <EntityTypeShape EntityType="Database.Law_Translation" Width="1.5" PointX="5.125" PointY="12.5" />
+        <AssociationConnector Association="Database.LawLaw_Translations" />
+        <AssociationConnector Association="Database.UserParagraph_Translation" />
+        <AssociationConnector Association="Database.UserLaw_Translation" />
+        <EntityTypeShape EntityType="Database.Paragraph_Change" Width="1.5" PointX="3.125" PointY="6.375" />
+        <AssociationConnector Association="Database.ProposedParagraphChangeParagraph" />
+        <AssociationConnector Association="Database.CountryPoliticalParty" />
+        <EntityTypeShape EntityType="Database.Law_Translation_Vote" Width="1.5" PointX="8.375" PointY="14.125" />
+        <AssociationConnector Association="Database.Law_Translation_VoteLaw_Translation" />
+        <EntityTypeShape EntityType="Database.Paragraph_Translate_Vote" Width="1.5" PointX="1.5" PointY="13" />
+        <AssociationConnector Association="Database.UserParagraph_Translate_Vote" />
+        <AssociationConnector Association="Database.Paragraph_TranslationParagraph_Translate_Vote" />
+        <AssociationConnector Association="Database.UserLaw_Translation_Vote" />
+        <EntityTypeShape EntityType="Database.Paragraph_Change_Vote" Width="1.5" PointX="0.5" PointY="6.375" />
+        <AssociationConnector Association="Database.Paragraph_ChangeParagraph_Change_Vote" />
+        <AssociationConnector Association="Database.UserParagraph_Change_Vote" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

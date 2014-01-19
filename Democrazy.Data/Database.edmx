@@ -17,8 +17,13 @@
     <EntitySet Name="Countries" EntityType="Database.Store.Countries" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Coalitions" EntityType="Database.Store.Coalitions" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Paragraphs" EntityType="Database.Store.Paragraphs" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="DemocracyTypes" EntityType="Database.Store.DemocracyTypes" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Sexes" EntityType="Database.Store.Sexes" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Paragraph_TranslationSet" EntityType="Database.Store.Paragraph_TranslationSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Law_Translations" EntityType="Database.Store.Law_Translations" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Paragraph_Changes" EntityType="Database.Store.Paragraph_Changes" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Law_Translation_Votes" EntityType="Database.Store.Law_Translation_Votes" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Paragraph_Translate_Votes" EntityType="Database.Store.Paragraph_Translate_Votes" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Paragraph_Change_Votes" EntityType="Database.Store.Paragraph_Change_Votes" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Votes" EntityType="Database.Store.Votes" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="Parliament_House" Association="Database.Store.Parliament_House">
       <End Role="Parliament" EntitySet="Parliaments" />
@@ -76,13 +81,57 @@
       <End Role="Seat" EntitySet="Seats" />
       <End Role="SeatType" EntitySet="SeatsTypes" />
     </AssociationSet>
-    <AssociationSet Name="DemocracyTypeCountry" Association="Database.Store.DemocracyTypeCountry">
-      <End Role="DemocracyType" EntitySet="DemocracyTypes" />
-      <End Role="Country" EntitySet="Countries" />
-    </AssociationSet>
     <AssociationSet Name="SexUser" Association="Database.Store.SexUser">
       <End Role="Sex" EntitySet="Sexes" />
       <End Role="User" EntitySet="Users" />
+    </AssociationSet>
+    <AssociationSet Name="ParagraphParagraph_Translation" Association="Database.Store.ParagraphParagraph_Translation">
+      <End Role="Paragraph" EntitySet="Paragraphs" />
+      <End Role="Paragraph_Translation" EntitySet="Paragraph_TranslationSet" />
+    </AssociationSet>
+    <AssociationSet Name="LawLaw_Translations" Association="Database.Store.LawLaw_Translations">
+      <End Role="Law" EntitySet="Laws" />
+      <End Role="Law_Translation" EntitySet="Law_Translations" />
+    </AssociationSet>
+    <AssociationSet Name="UserParagraph_Translation" Association="Database.Store.UserParagraph_Translation">
+      <End Role="User" EntitySet="Users" />
+      <End Role="Paragraph_Translation" EntitySet="Paragraph_TranslationSet" />
+    </AssociationSet>
+    <AssociationSet Name="UserLaw_Translation" Association="Database.Store.UserLaw_Translation">
+      <End Role="User" EntitySet="Users" />
+      <End Role="Law_Translation" EntitySet="Law_Translations" />
+    </AssociationSet>
+    <AssociationSet Name="ProposedParagraphChangeParagraph" Association="Database.Store.ProposedParagraphChangeParagraph">
+      <End Role="ProposedParagraphChange" EntitySet="Paragraph_Changes" />
+      <End Role="Paragraph" EntitySet="Paragraphs" />
+    </AssociationSet>
+    <AssociationSet Name="CountryPoliticalParty" Association="Database.Store.CountryPoliticalParty">
+      <End Role="Country" EntitySet="Countries" />
+      <End Role="PoliticalParty" EntitySet="PoliticalParties" />
+    </AssociationSet>
+    <AssociationSet Name="Law_Translation_VoteLaw_Translation" Association="Database.Store.Law_Translation_VoteLaw_Translation">
+      <End Role="Law_Translation_Vote" EntitySet="Law_Translation_Votes" />
+      <End Role="Law_Translation" EntitySet="Law_Translations" />
+    </AssociationSet>
+    <AssociationSet Name="UserParagraph_Translate_Vote" Association="Database.Store.UserParagraph_Translate_Vote">
+      <End Role="User" EntitySet="Users" />
+      <End Role="Paragraph_Translate_Vote" EntitySet="Paragraph_Translate_Votes" />
+    </AssociationSet>
+    <AssociationSet Name="Paragraph_TranslationParagraph_Translate_Vote" Association="Database.Store.Paragraph_TranslationParagraph_Translate_Vote">
+      <End Role="Paragraph_Translation" EntitySet="Paragraph_TranslationSet" />
+      <End Role="Paragraph_Translate_Vote" EntitySet="Paragraph_Translate_Votes" />
+    </AssociationSet>
+    <AssociationSet Name="UserLaw_Translation_Vote" Association="Database.Store.UserLaw_Translation_Vote">
+      <End Role="User" EntitySet="Users" />
+      <End Role="Law_Translation_Vote" EntitySet="Law_Translation_Votes" />
+    </AssociationSet>
+    <AssociationSet Name="Paragraph_ChangeParagraph_Change_Vote" Association="Database.Store.Paragraph_ChangeParagraph_Change_Vote">
+      <End Role="Paragraph_Change" EntitySet="Paragraph_Changes" />
+      <End Role="Paragraph_Change_Vote" EntitySet="Paragraph_Change_Votes" />
+    </AssociationSet>
+    <AssociationSet Name="UserParagraph_Change_Vote" Association="Database.Store.UserParagraph_Change_Vote">
+      <End Role="User" EntitySet="Users" />
+      <End Role="Paragraph_Change_Vote" EntitySet="Paragraph_Change_Votes" />
     </AssociationSet>
   </EntityContainer>
   <EntityType Name="Users">
@@ -92,7 +141,7 @@
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Password" Type="nvarchar(max)" Nullable="false" />
     <Property Name="UserName" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="UserLevel" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="UserLevel" Type="int" Nullable="false" />
     <Property Name="CountryId" Type="int" Nullable="false" />
     <Property Name="SexId" Type="int" Nullable="false" />
   </EntityType>
@@ -151,6 +200,7 @@
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="SeatNumber" Type="smallint" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Parliament_House_Lower_House_Id" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="PoliticalParties">
@@ -161,6 +211,7 @@
     <Property Name="CoalitionId" Type="int" Nullable="false" />
     <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Abbreviation" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="CountryId" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="Countries">
     <Key>
@@ -169,7 +220,7 @@
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
     <Property Name="NumberOfInhabitants" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="DemocracyTypeId" Type="int" Nullable="false" />
+    <Property Name="GovernmentType" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="Coalitions">
     <Key>
@@ -188,18 +239,76 @@
     <Property Name="Text" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
   </EntityType>
-  <EntityType Name="DemocracyTypes">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Type" Type="nvarchar(max)" Nullable="false" />
-  </EntityType>
   <EntityType Name="Sexes">
     <Key>
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Paragraph_TranslationSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Summary" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="StartDate" Type="datetime" Nullable="false" />
+    <Property Name="EndDate" Type="datetime" Nullable="true" />
+    <Property Name="RevisionType" Type="smallint" Nullable="false" />
+    <Property Name="ParagraphId" Type="int" Nullable="false" />
+    <Property Name="UserId" Type="int" Nullable="false" />
+    <Property Name="Reason" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Law_Translations">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="StartDate" Type="datetime" Nullable="false" />
+    <Property Name="EndDate" Type="datetime" Nullable="true" />
+    <Property Name="RevisionType" Type="smallint" Nullable="false" />
+    <Property Name="Summary" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="LawId" Type="int" Nullable="false" />
+    <Property Name="UserId" Type="int" Nullable="false" />
+    <Property Name="Reason" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Paragraph_Changes">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Reason" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="ParagraphId" Type="int" Nullable="false" />
+    <Property Name="Text" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="StartDate" Type="datetime" Nullable="false" />
+    <Property Name="EndDate" Type="datetime" Nullable="true" />
+    <Property Name="RevisionType" Type="smallint" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Law_Translation_Votes">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Vote_Value" Type="smallint" Nullable="false" />
+    <Property Name="Law_TranslationId" Type="int" Nullable="false" />
+    <Property Name="UserId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Paragraph_Translate_Votes">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserId" Type="int" Nullable="false" />
+    <Property Name="Paragraph_TranslationId" Type="int" Nullable="false" />
+    <Property Name="Vote_Value" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Paragraph_Change_Votes">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Vote_Value" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Paragraph_ChangeId" Type="int" Nullable="false" />
+    <Property Name="UserId" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="Votes">
     <Key>
@@ -353,18 +462,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="DemocracyTypeCountry">
-    <End Role="DemocracyType" Type="Database.Store.DemocracyTypes" Multiplicity="1" />
-    <End Role="Country" Type="Database.Store.Countries" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="DemocracyType">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Country">
-        <PropertyRef Name="DemocracyTypeId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="SexUser">
     <End Role="Sex" Type="Database.Store.Sexes" Multiplicity="1" />
     <End Role="User" Type="Database.Store.Users" Multiplicity="*" />
@@ -374,6 +471,150 @@
       </Principal>
       <Dependent Role="User">
         <PropertyRef Name="SexId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="ParagraphParagraph_Translation">
+    <End Role="Paragraph" Type="Database.Store.Paragraphs" Multiplicity="1" />
+    <End Role="Paragraph_Translation" Type="Database.Store.Paragraph_TranslationSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Paragraph">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Paragraph_Translation">
+        <PropertyRef Name="ParagraphId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="LawLaw_Translations">
+    <End Role="Law" Type="Database.Store.Laws" Multiplicity="1" />
+    <End Role="Law_Translation" Type="Database.Store.Law_Translations" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Law">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Law_Translation">
+        <PropertyRef Name="LawId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="UserParagraph_Translation">
+    <End Role="User" Type="Database.Store.Users" Multiplicity="1" />
+    <End Role="Paragraph_Translation" Type="Database.Store.Paragraph_TranslationSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Paragraph_Translation">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="UserLaw_Translation">
+    <End Role="User" Type="Database.Store.Users" Multiplicity="1" />
+    <End Role="Law_Translation" Type="Database.Store.Law_Translations" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Law_Translation">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="ProposedParagraphChangeParagraph">
+    <End Role="ProposedParagraphChange" Type="Database.Store.Paragraph_Changes" Multiplicity="*" />
+    <End Role="Paragraph" Type="Database.Store.Paragraphs" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Paragraph">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ProposedParagraphChange">
+        <PropertyRef Name="ParagraphId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="CountryPoliticalParty">
+    <End Role="Country" Type="Database.Store.Countries" Multiplicity="1" />
+    <End Role="PoliticalParty" Type="Database.Store.PoliticalParties" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Country">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="PoliticalParty">
+        <PropertyRef Name="CountryId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="Law_Translation_VoteLaw_Translation">
+    <End Role="Law_Translation_Vote" Type="Database.Store.Law_Translation_Votes" Multiplicity="*" />
+    <End Role="Law_Translation" Type="Database.Store.Law_Translations" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Law_Translation">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Law_Translation_Vote">
+        <PropertyRef Name="Law_TranslationId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="UserParagraph_Translate_Vote">
+    <End Role="User" Type="Database.Store.Users" Multiplicity="1" />
+    <End Role="Paragraph_Translate_Vote" Type="Database.Store.Paragraph_Translate_Votes" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Paragraph_Translate_Vote">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="Paragraph_TranslationParagraph_Translate_Vote">
+    <End Role="Paragraph_Translation" Type="Database.Store.Paragraph_TranslationSet" Multiplicity="1" />
+    <End Role="Paragraph_Translate_Vote" Type="Database.Store.Paragraph_Translate_Votes" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Paragraph_Translation">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Paragraph_Translate_Vote">
+        <PropertyRef Name="Paragraph_TranslationId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="UserLaw_Translation_Vote">
+    <End Role="User" Type="Database.Store.Users" Multiplicity="1" />
+    <End Role="Law_Translation_Vote" Type="Database.Store.Law_Translation_Votes" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Law_Translation_Vote">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="Paragraph_ChangeParagraph_Change_Vote">
+    <End Role="Paragraph_Change" Type="Database.Store.Paragraph_Changes" Multiplicity="1" />
+    <End Role="Paragraph_Change_Vote" Type="Database.Store.Paragraph_Change_Votes" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Paragraph_Change">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Paragraph_Change_Vote">
+        <PropertyRef Name="Paragraph_ChangeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="UserParagraph_Change_Vote">
+    <End Role="User" Type="Database.Store.Users" Multiplicity="1" />
+    <End Role="Paragraph_Change_Vote" Type="Database.Store.Paragraph_Change_Votes" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Paragraph_Change_Vote">
+        <PropertyRef Name="UserId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -469,15 +710,64 @@
             <End Role="Seat" EntitySet="Seats" />
             <End Role="SeatType" EntitySet="SeatsTypes" />
           </AssociationSet>
-          <EntitySet Name="DemocracyTypes" EntityType="Database.DemocracyType" />
-          <AssociationSet Name="DemocracyTypeCountry" Association="Database.DemocracyTypeCountry">
-            <End Role="DemocracyType" EntitySet="DemocracyTypes" />
-            <End Role="Country" EntitySet="Countries" />
-          </AssociationSet>
           <EntitySet Name="Sexes" EntityType="Database.Sex" />
           <AssociationSet Name="SexUser" Association="Database.SexUser">
             <End Role="Sex" EntitySet="Sexes" />
             <End Role="User" EntitySet="Users" />
+          </AssociationSet>
+          <EntitySet Name="Paragraph_TranslationSet" EntityType="Database.Paragraph_Translation" />
+          <AssociationSet Name="ParagraphParagraph_Translation" Association="Database.ParagraphParagraph_Translation">
+            <End Role="Paragraph" EntitySet="Paragraphs" />
+            <End Role="Paragraph_Translation" EntitySet="Paragraph_TranslationSet" />
+          </AssociationSet>
+          <EntitySet Name="Law_Translations" EntityType="Database.Law_Translation" />
+          <AssociationSet Name="LawLaw_Translations" Association="Database.LawLaw_Translations">
+            <End Role="Law" EntitySet="Laws" />
+            <End Role="Law_Translation" EntitySet="Law_Translations" />
+          </AssociationSet>
+          <AssociationSet Name="UserParagraph_Translation" Association="Database.UserParagraph_Translation">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Paragraph_Translation" EntitySet="Paragraph_TranslationSet" />
+          </AssociationSet>
+          <AssociationSet Name="UserLaw_Translation" Association="Database.UserLaw_Translation">
+            <End EntitySet="Users" Role="User" />
+            <End EntitySet="Law_Translations" Role="Law_Translation" />
+          </AssociationSet>
+          <EntitySet Name="Paragraph_Changes" EntityType="Database.Paragraph_Change" />
+          <AssociationSet Name="ProposedParagraphChangeParagraph" Association="Database.ProposedParagraphChangeParagraph">
+            <End Role="ProposedParagraphChange" EntitySet="Paragraph_Changes" />
+            <End Role="Paragraph" EntitySet="Paragraphs" />
+          </AssociationSet>
+          <AssociationSet Name="CountryPoliticalParty" Association="Database.CountryPoliticalParty">
+            <End Role="Country" EntitySet="Countries" />
+            <End Role="PoliticalParty" EntitySet="PoliticalParties" />
+          </AssociationSet>
+          <EntitySet Name="Law_Translation_Votes" EntityType="Database.Law_Translation_Vote" />
+          <AssociationSet Name="Law_Translation_VoteLaw_Translation" Association="Database.Law_Translation_VoteLaw_Translation">
+            <End Role="Law_Translation_Vote" EntitySet="Law_Translation_Votes" />
+            <End Role="Law_Translation" EntitySet="Law_Translations" />
+          </AssociationSet>
+          <EntitySet Name="Paragraph_Translate_Votes" EntityType="Database.Paragraph_Translate_Vote" />
+          <AssociationSet Name="UserParagraph_Translate_Vote" Association="Database.UserParagraph_Translate_Vote">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Paragraph_Translate_Vote" EntitySet="Paragraph_Translate_Votes" />
+          </AssociationSet>
+          <AssociationSet Name="Paragraph_TranslationParagraph_Translate_Vote" Association="Database.Paragraph_TranslationParagraph_Translate_Vote">
+            <End Role="Paragraph_Translation" EntitySet="Paragraph_TranslationSet" />
+            <End Role="Paragraph_Translate_Vote" EntitySet="Paragraph_Translate_Votes" />
+          </AssociationSet>
+          <AssociationSet Name="UserLaw_Translation_Vote" Association="Database.UserLaw_Translation_Vote">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Law_Translation_Vote" EntitySet="Law_Translation_Votes" />
+          </AssociationSet>
+          <EntitySet Name="Paragraph_Change_Votes" EntityType="Database.Paragraph_Change_Vote" />
+          <AssociationSet Name="Paragraph_ChangeParagraph_Change_Vote" Association="Database.Paragraph_ChangeParagraph_Change_Vote">
+            <End Role="Paragraph_Change" EntitySet="Paragraph_Changes" />
+            <End Role="Paragraph_Change_Vote" EntitySet="Paragraph_Change_Votes" />
+          </AssociationSet>
+          <AssociationSet Name="UserParagraph_Change_Vote" Association="Database.UserParagraph_Change_Vote">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Paragraph_Change_Vote" EntitySet="Paragraph_Change_Votes" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="User">
@@ -487,9 +777,14 @@
           <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Type="String" Name="Password" Nullable="false" />
           <Property Type="String" Name="UserName" Nullable="false" />
-          <Property Type="String" Name="UserLevel" Nullable="false" />
+          <Property Type="Database.UserLevel" Name="UserLevel" Nullable="false" />
           <Property Type="Int32" Name="CountryId" Nullable="false" />
           <Property Type="Int32" Name="SexId" Nullable="false" />
+          <NavigationProperty Name="Paragraph_Translations" Relationship="Database.UserParagraph_Translation" FromRole="User" ToRole="Paragraph_Translation" />
+          <NavigationProperty Name="Law_Translations" Relationship="Database.UserLaw_Translation" FromRole="User" ToRole="Law_Translation" />
+          <NavigationProperty Name="Paragraph_Translate_Votes" Relationship="Database.UserParagraph_Translate_Vote" FromRole="User" ToRole="Paragraph_Translate_Vote" />
+          <NavigationProperty Name="Law_Translation_Votes" Relationship="Database.UserLaw_Translation_Vote" FromRole="User" ToRole="Law_Translation_Vote" />
+          <NavigationProperty Name="Paragraph_Change_Votes" Relationship="Database.UserParagraph_Change_Vote" FromRole="User" ToRole="Paragraph_Change_Vote" />
         </EntityType>
         <EntityType Name="Law">
           <Key>
@@ -503,6 +798,7 @@
           <NavigationProperty Name="Paragraphs" Relationship="Database.ParagraphLaw" FromRole="Law" ToRole="Paragraph" />
           <Property Type="String" Name="Summary" Nullable="false" />
           <Property Type="String" Name="AliasName" Nullable="true" />
+          <NavigationProperty Name="Law_Translations" Relationship="Database.LawLaw_Translations" FromRole="Law" ToRole="Law_Translation" />
         </EntityType>
         <EntityType Name="LawProposal">
           <Key>
@@ -556,6 +852,7 @@
           <NavigationProperty Name="Seats" Relationship="Database.Lower_HouseSeat" FromRole="Lower_House" ToRole="Seat" />
           <NavigationProperty Name="LawProposals" Relationship="Database.Lower_HouseLawProposal" FromRole="Lower_House" ToRole="LawProposal" />
           <Property Type="Int16" Name="SeatNumber" Nullable="false" />
+          <Property Type="String" Name="Name" Nullable="false" />
         </EntityType>
         <Association Name="Parliament_House">
           <End Type="Database.Parliament" Role="Parliament" Multiplicity="1" />
@@ -570,6 +867,7 @@
           <NavigationProperty Name="Seats" Relationship="Database.SeatPoliticalParty" FromRole="PoliticalParty" ToRole="Seat" />
           <Property Type="String" Name="Name" Nullable="false" />
           <Property Type="String" Name="Abbreviation" Nullable="false" />
+          <Property Type="Int32" Name="CountryId" Nullable="false" />
         </EntityType>
         <Association Name="ParliamentSeat">
           <End Type="Database.Parliament" Role="Parliament" Multiplicity="0..1" />
@@ -628,7 +926,8 @@
           <Property Type="String" Name="Name" Nullable="false" />
           <NavigationProperty Name="Laws" Relationship="Database.CountryLaw" FromRole="Country" ToRole="Law" />
           <Property Type="String" Name="NumberOfInhabitants" Nullable="false" />
-          <Property Type="Int32" Name="DemocracyTypeId" Nullable="false" />
+          <NavigationProperty Name="PoliticalParties" Relationship="Database.CountryPoliticalParty" FromRole="Country" ToRole="PoliticalParty" />
+          <Property Type="Database.Government_Type" Name="GovernmentType" Nullable="false" />
         </EntityType>
         <Association Name="CountryParliament">
           <End Type="Database.Country" Role="Country" Multiplicity="1" />
@@ -703,6 +1002,7 @@
           <Property Type="Int32" Name="LawId" Nullable="false" />
           <Property Type="String" Name="Text" Nullable="false" />
           <Property Type="String" Name="Name" Nullable="false" />
+          <NavigationProperty Name="Paragraph_Translations" Relationship="Database.ParagraphParagraph_Translation" FromRole="Paragraph" ToRole="Paragraph_Translation" />
         </EntityType>
         <Association Name="ParagraphLaw">
           <End Type="Database.Paragraph" Role="Paragraph" Multiplicity="*" />
@@ -728,26 +1028,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="DemocracyType">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <NavigationProperty Name="Countries" Relationship="Database.DemocracyTypeCountry" FromRole="DemocracyType" ToRole="Country" />
-          <Property Type="String" Name="Type" Nullable="false" />
-        </EntityType>
-        <Association Name="DemocracyTypeCountry">
-          <End Type="Database.DemocracyType" Role="DemocracyType" Multiplicity="1" />
-          <End Type="Database.Country" Role="Country" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="DemocracyType">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Country">
-              <PropertyRef Name="DemocracyTypeId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="Sex">
           <Key>
             <PropertyRef Name="Id" />
@@ -767,6 +1047,234 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Paragraph_Translation">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Summary" Nullable="false" />
+          <Property Type="DateTime" Name="StartDate" Nullable="false" />
+          <Property Type="DateTime" Name="EndDate" Nullable="true" />
+          <Property Type="Database.RevisionType" Name="RevisionType" Nullable="false" />
+          <Property Type="Int32" Name="ParagraphId" Nullable="false" />
+          <Property Type="Int32" Name="UserId" Nullable="false" />
+          <Property Type="String" Name="Reason" Nullable="false" />
+          <NavigationProperty Name="Votes" Relationship="Database.Paragraph_TranslationParagraph_Translate_Vote" FromRole="Paragraph_Translation" ToRole="Paragraph_Translate_Vote" />
+        </EntityType>
+        <EnumType Name="RevisionType" UnderlyingType="Int16">
+          <Member Name="Update" Value="1" />
+          <Member Name="Insert" Value="2" />
+          <Member Name="Delete" Value="3" />
+        </EnumType>
+        <Association Name="ParagraphParagraph_Translation">
+          <End Type="Database.Paragraph" Role="Paragraph" Multiplicity="1" />
+          <End Type="Database.Paragraph_Translation" Role="Paragraph_Translation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Paragraph">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Paragraph_Translation">
+              <PropertyRef Name="ParagraphId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Law_Translation">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="DateTime" Name="StartDate" Nullable="false" />
+          <Property Type="DateTime" Name="EndDate" Nullable="true" />
+          <Property Type="Database.RevisionType" Name="RevisionType" Nullable="false" />
+          <Property Type="String" Name="Summary" Nullable="false" />
+          <Property Type="Int32" Name="LawId" Nullable="false" />
+          <Property Type="Int32" Name="UserId" Nullable="false" />
+          <Property Type="String" Name="Reason" Nullable="false" />
+          <NavigationProperty Name="Votes" Relationship="Database.Law_Translation_VoteLaw_Translation" FromRole="Law_Translation" ToRole="Law_Translation_Vote" />
+        </EntityType>
+        <Association Name="LawLaw_Translations">
+          <End Type="Database.Law" Role="Law" Multiplicity="1" />
+          <End Type="Database.Law_Translation" Role="Law_Translation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Law">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Law_Translation">
+              <PropertyRef Name="LawId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="UserParagraph_Translation">
+          <End Type="Database.User" Role="User" Multiplicity="1" />
+          <End Type="Database.Paragraph_Translation" Role="Paragraph_Translation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Paragraph_Translation">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="UserLaw_Translation">
+          <End Type="Database.User" Multiplicity="1" Role="User" />
+          <End Type="Database.Law_Translation" Multiplicity="*" Role="Law_Translation" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Law_Translation">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Paragraph_Change">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Reason" Nullable="false" />
+          <Property Type="Int32" Name="ParagraphId" Nullable="false" />
+          <Property Type="String" Name="Text" Nullable="false" />
+          <Property Type="DateTime" Name="StartDate" Nullable="false" />
+          <Property Type="DateTime" Name="EndDate" Nullable="true" />
+          <Property Type="Database.RevisionType" Name="RevisionType" Nullable="false" />
+          <NavigationProperty Name="Votes" Relationship="Database.Paragraph_ChangeParagraph_Change_Vote" FromRole="Paragraph_Change" ToRole="Paragraph_Change_Vote" />
+        </EntityType>
+        <Association Name="ProposedParagraphChangeParagraph">
+          <End Type="Database.Paragraph_Change" Role="ProposedParagraphChange" Multiplicity="*" />
+          <End Type="Database.Paragraph" Role="Paragraph" Multiplicity="1" />
+          <ReferentialConstraint>
+            <Principal Role="Paragraph">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ProposedParagraphChange">
+              <PropertyRef Name="ParagraphId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="CountryPoliticalParty">
+          <End Type="Database.Country" Role="Country" Multiplicity="1" />
+          <End Type="Database.PoliticalParty" Role="PoliticalParty" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Country">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PoliticalParty">
+              <PropertyRef Name="CountryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Law_Translation_Vote">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int16" Name="Vote_Value" Nullable="false" />
+          <Property Type="Int32" Name="Law_TranslationId" Nullable="false" />
+          <Property Type="Int32" Name="UserId" Nullable="false" />
+        </EntityType>
+        <Association Name="Law_Translation_VoteLaw_Translation">
+          <End Type="Database.Law_Translation_Vote" Role="Law_Translation_Vote" Multiplicity="*" />
+          <End Type="Database.Law_Translation" Role="Law_Translation" Multiplicity="1" />
+          <ReferentialConstraint>
+            <Principal Role="Law_Translation">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Law_Translation_Vote">
+              <PropertyRef Name="Law_TranslationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Paragraph_Translate_Vote">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="UserId" Nullable="false" />
+          <Property Type="Int32" Name="Paragraph_TranslationId" Nullable="false" />
+          <Property Type="String" Name="Vote_Value" Nullable="false" />
+        </EntityType>
+        <Association Name="UserParagraph_Translate_Vote">
+          <End Type="Database.User" Role="User" Multiplicity="1" />
+          <End Type="Database.Paragraph_Translate_Vote" Role="Paragraph_Translate_Vote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Paragraph_Translate_Vote">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Paragraph_TranslationParagraph_Translate_Vote">
+          <End Type="Database.Paragraph_Translation" Role="Paragraph_Translation" Multiplicity="1" />
+          <End Type="Database.Paragraph_Translate_Vote" Role="Paragraph_Translate_Vote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Paragraph_Translation">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Paragraph_Translate_Vote">
+              <PropertyRef Name="Paragraph_TranslationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="UserLaw_Translation_Vote">
+          <End Type="Database.User" Role="User" Multiplicity="1" />
+          <End Type="Database.Law_Translation_Vote" Role="Law_Translation_Vote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Law_Translation_Vote">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Paragraph_Change_Vote">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Vote_Value" Nullable="false" />
+          <Property Type="Int32" Name="Paragraph_ChangeId" Nullable="false" />
+          <Property Type="Int32" Name="UserId" Nullable="false" />
+        </EntityType>
+        <Association Name="Paragraph_ChangeParagraph_Change_Vote">
+          <End Type="Database.Paragraph_Change" Role="Paragraph_Change" Multiplicity="1" />
+          <End Type="Database.Paragraph_Change_Vote" Role="Paragraph_Change_Vote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Paragraph_Change">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Paragraph_Change_Vote">
+              <PropertyRef Name="Paragraph_ChangeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="UserParagraph_Change_Vote">
+          <End Type="Database.User" Role="User" Multiplicity="1" />
+          <End Type="Database.Paragraph_Change_Vote" Role="Paragraph_Change_Vote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Paragraph_Change_Vote">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EnumType Name="Government_Type">
+          <Member Name="Republic" Value="1" />
+          <Member Name="Constitutional_Monarchy" Value="2" />
+          <Member Name="Dictatorship" Value="3" />
+        </EnumType>
+        <EnumType Name="UserLevel">
+          <Member Name="Admin" Value="1" />
+          <Member Name="Owner" Value="2" />
+          <Member Name="User" Value="3" />
+          <Member Name="Power_User" Value="4" />
+        </EnumType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -843,6 +1351,7 @@
         <MappingFragment StoreEntitySet="Lower_Houses">
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="SeatNumber" ColumnName="SeatNumber" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -853,6 +1362,7 @@
           <ScalarProperty Name="CoalitionId" ColumnName="CoalitionId" />
           <ScalarProperty Name="Name" ColumnName="Name" />
           <ScalarProperty Name="Abbreviation" ColumnName="Abbreviation" />
+          <ScalarProperty Name="CountryId" ColumnName="CountryId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -862,7 +1372,7 @@
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Name" ColumnName="Name" />
           <ScalarProperty Name="NumberOfInhabitants" ColumnName="NumberOfInhabitants" />
-          <ScalarProperty Name="DemocracyTypeId" ColumnName="DemocracyTypeId" />
+          <ScalarProperty Name="GovernmentType" ColumnName="GovernmentType" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -885,18 +1395,81 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="DemocracyTypes">
-      <EntityTypeMapping TypeName="IsTypeOf(Database.DemocracyType)">
-        <MappingFragment StoreEntitySet="DemocracyTypes">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="Type" ColumnName="Type" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="Sexes">
       <EntityTypeMapping TypeName="IsTypeOf(Database.Sex)">
         <MappingFragment StoreEntitySet="Sexes">
           <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Paragraph_TranslationSet">
+      <EntityTypeMapping TypeName="IsTypeOf(Database.Paragraph_Translation)">
+        <MappingFragment StoreEntitySet="Paragraph_TranslationSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Summary" ColumnName="Summary" />
+          <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+          <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+          <ScalarProperty Name="RevisionType" ColumnName="RevisionType" />
+          <ScalarProperty Name="ParagraphId" ColumnName="ParagraphId" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="Reason" ColumnName="Reason" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Law_Translations">
+      <EntityTypeMapping TypeName="IsTypeOf(Database.Law_Translation)">
+        <MappingFragment StoreEntitySet="Law_Translations">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+          <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+          <ScalarProperty Name="RevisionType" ColumnName="RevisionType" />
+          <ScalarProperty Name="Summary" ColumnName="Summary" />
+          <ScalarProperty Name="LawId" ColumnName="LawId" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="Reason" ColumnName="Reason" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Paragraph_Changes">
+      <EntityTypeMapping TypeName="IsTypeOf(Database.Paragraph_Change)">
+        <MappingFragment StoreEntitySet="Paragraph_Changes">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Reason" ColumnName="Reason" />
+          <ScalarProperty Name="ParagraphId" ColumnName="ParagraphId" />
+          <ScalarProperty Name="Text" ColumnName="Text" />
+          <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+          <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+          <ScalarProperty Name="RevisionType" ColumnName="RevisionType" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Law_Translation_Votes">
+      <EntityTypeMapping TypeName="IsTypeOf(Database.Law_Translation_Vote)">
+        <MappingFragment StoreEntitySet="Law_Translation_Votes">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Vote_Value" ColumnName="Vote_Value" />
+          <ScalarProperty Name="Law_TranslationId" ColumnName="Law_TranslationId" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Paragraph_Translate_Votes">
+      <EntityTypeMapping TypeName="IsTypeOf(Database.Paragraph_Translate_Vote)">
+        <MappingFragment StoreEntitySet="Paragraph_Translate_Votes">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="Paragraph_TranslationId" ColumnName="Paragraph_TranslationId" />
+          <ScalarProperty Name="Vote_Value" ColumnName="Vote_Value" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Paragraph_Change_Votes">
+      <EntityTypeMapping TypeName="IsTypeOf(Database.Paragraph_Change_Vote)">
+        <MappingFragment StoreEntitySet="Paragraph_Change_Votes">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Vote_Value" ColumnName="Vote_Value" />
+          <ScalarProperty Name="Paragraph_ChangeId" ColumnName="Paragraph_ChangeId" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

@@ -14,11 +14,26 @@ namespace Democrazy.Data
     
     public partial class User
     {
+        public User()
+        {
+            this.Paragraph_Translations = new HashSet<Paragraph_Translation>();
+            this.Law_Translations = new HashSet<Law_Translation>();
+            this.Paragraph_Translate_Votes = new HashSet<Paragraph_Translate_Vote>();
+            this.Law_Translation_Votes = new HashSet<Law_Translation_Vote>();
+            this.Paragraph_Change_Votes = new HashSet<Paragraph_Change_Vote>();
+        }
+    
         public int Id { get; set; }
         public string Password { get; set; }
         public string UserName { get; set; }
-        public string UserLevel { get; set; }
+        public UserLevel UserLevel { get; set; }
         public int CountryId { get; set; }
         public int SexId { get; set; }
+    
+        public virtual ICollection<Paragraph_Translation> Paragraph_Translations { get; set; }
+        public virtual ICollection<Law_Translation> Law_Translations { get; set; }
+        public virtual ICollection<Paragraph_Translate_Vote> Paragraph_Translate_Votes { get; set; }
+        public virtual ICollection<Law_Translation_Vote> Law_Translation_Votes { get; set; }
+        public virtual ICollection<Paragraph_Change_Vote> Paragraph_Change_Votes { get; set; }
     }
 }

@@ -67,19 +67,39 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Database.edmx</DependentUpon>
     </Compile>
-    <Compile Include="DemocracyType.cs">
+    <Compile Include="Government_Type.cs">
       <DependentUpon>Database.tt</DependentUpon>
     </Compile>
+    <Compile Include="Interfaces\IRepository.cs" />
+    <Compile Include="Interfaces\IUnitOfWork.cs" />
     <Compile Include="Law.cs">
       <DependentUpon>Database.tt</DependentUpon>
     </Compile>
     <Compile Include="LawProposal.cs">
       <DependentUpon>Database.tt</DependentUpon>
     </Compile>
+    <Compile Include="Law_Translation.cs">
+      <DependentUpon>Database.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Law_Translation_Vote.cs">
+      <DependentUpon>Database.tt</DependentUpon>
+    </Compile>
     <Compile Include="Lower_House.cs">
       <DependentUpon>Database.tt</DependentUpon>
     </Compile>
     <Compile Include="Paragraph.cs">
+      <DependentUpon>Database.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Paragraph_Change.cs">
+      <DependentUpon>Database.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Paragraph_Change_Vote.cs">
+      <DependentUpon>Database.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Paragraph_Translate_Vote.cs">
+      <DependentUpon>Database.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Paragraph_Translation.cs">
       <DependentUpon>Database.tt</DependentUpon>
     </Compile>
     <Compile Include="Parliament.cs">
@@ -89,6 +109,10 @@
       <DependentUpon>Database.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repository.cs" />
+    <Compile Include="RevisionType.cs">
+      <DependentUpon>Database.tt</DependentUpon>
+    </Compile>
     <Compile Include="Seat.cs">
       <DependentUpon>Database.tt</DependentUpon>
     </Compile>
@@ -98,7 +122,11 @@
     <Compile Include="Sex.cs">
       <DependentUpon>Database.tt</DependentUpon>
     </Compile>
+    <Compile Include="UnitOfWork.cs" />
     <Compile Include="User.cs">
+      <DependentUpon>Database.tt</DependentUpon>
+    </Compile>
+    <Compile Include="UserLevel.cs">
       <DependentUpon>Database.tt</DependentUpon>
     </Compile>
   </ItemGroup>
